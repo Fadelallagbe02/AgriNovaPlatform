@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b3d2e">
+  <title>AgriNova — L'agriculture nourrit l'humanité</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<header class="landing-nav">
+  <a href="index.html" class="brand">
+    <img src="assets/AgriNova_AGNV_logo_512x512.png" alt="AgriNova">
+    <span>AgriNova</span>
+  </a>
+
+  <div class="nav-actions">
+    <button class="ghost-btn" onclick="openAuth('login')">
+      Connexion
+    </button>
+
+    <button class="primary-btn" onclick="openAuth('register')">
+      S'inscrire
+    </button>
+  </div>
+</header>
+
+<main>
+
+<section class="hero">
+
+  <div class="hero-content">
+
+    <div class="hero-badge">
+      🌍 Marketplace agricole mondiale
+    </div>
+
+    <h1>
+      L'agriculture
+      <span>nourrit l'humanité.</span>
+    </h1>
+
+    <p>
+      AgriNova connecte agriculteurs, producteurs, acheteurs,
+      entreprises et partenaires à travers le monde dans un
+      environnement pensé pour un commerce plus transparent,
+      équitable et sécurisé.
+    </p>
+
+    <div class="hero-actions">
+      <button class="primary-btn large" onclick="openAuth('register')">
+        Commencer maintenant →
+      </button>
+
+      <a href="pages/market.html" class="secondary-btn large">
+        Découvrir le marché
+      </a>
+    </div>
+
+  </div>
+
+  <div class="hero-logo-card">
+    <div class="logo-glow"></div>
+    <img src="assets/AgriNova_AGNV_logo_512x512.png" alt="AGNV">
+    <strong>AGNV</strong>
+    <span>AgriNova Token</span>
+  </div>
+
+</section>
+
+
+<section class="values">
+
+  <div class="section-title">
+    <span>NOTRE VISION</span>
+    <h2>Une plateforme pensée pour le monde réel.</h2>
+  </div>
+
+  <div class="value-grid">
+
+    <article class="value-card">
+      <div class="value-icon">🌍</div>
+      <h3>Un monde, plusieurs réalités</h3>
+      <p>
+        Chaque pays possède ses produits, ses besoins,
+        ses devises, ses règles et ses habitudes commerciales.
+      </p>
+    </article>
+
+    <article class="value-card">
+      <div class="value-icon">🤝</div>
+      <h3>Commerce équitable</h3>
+      <p>
+        Le vendeur fixe son prix. L'acheteur peut accepter,
+        négocier ou faire une offre.
+      </p>
+    </article>
+
+    <article class="value-card">
+      <div class="value-icon">🔐</div>
+      <h3>Transactions sécurisées</h3>
+      <p>
+        Notre architecture prévoit la protection des deux
+        parties, la conservation des preuves et la gestion
+        des litiges.
+      </p>
+    </article>
+
+    <article class="value-card">
+      <div class="value-icon">🚚</div>
+      <h3>Logistique intégrée</h3>
+      <p>
+        Les futurs partenaires de transport pourront être
+        intégrés directement aux transactions.
+      </p>
+    </article>
+
+  </div>
+
+</section>
+
+
+<section class="how">
+
+  <div class="section-title">
+    <span>COMMENT ÇA MARCHE</span>
+    <h2>Simple pour l'utilisateur.</h2>
+  </div>
+
+  <div class="steps">
+
+    <div class="step">
+      <b>01</b>
+      <span>👤</span>
+      <h3>Créer son compte</h3>
+      <p>Choisissez votre pays, votre langue et votre profil.</p>
+    </div>
+
+    <div class="step">
+      <b>02</b>
+      <span>🌾</span>
+      <h3>Découvrir</h3>
+      <p>Explorez les produits disponibles sur votre marché.</p>
+    </div>
+
+    <div class="step">
+      <b>03</b>
+      <span>🤝</span>
+      <h3>Négocier</h3>
+      <p>Discutez et trouvez un prix accepté par les deux parties.</p>
+    </div>
+
+    <div class="step">
+      <b>04</b>
+      <span>🔐</span>
+      <h3>Transacter</h3>
+      <p>La transaction suit les règles convenues entre les parties.</p>
+    </div>
+
+  </div>
+
+</section>
+
+
+<section class="coming">
+
+  <div>
+    <span class="eyebrow">ÉCOSYSTÈME AGRINOVA</span>
+    <h2>Une vision plus grande que la marketplace.</h2>
+    <p>
+      La marketplace est notre premier service.
+      D'autres services arriveront progressivement.
+    </p>
+  </div>
+
+  <div class="coming-grid">
+    <span>🛡️ Assurance</span>
+    <span>💳 Paiements</span>
+    <span>🚜 Machines</span>
+    <span>💰 Financement</span>
+    <span>📊 Analyse</span>
+    <span>🌱 Services agricoles</span>
+  </div>
+
+  <small>
+    🔒 Ces services ne sont pas encore disponibles.
+  </small>
+
+</section>
+
+</main>
+
+
+<footer>
+  <div class="brand">
+    <img src="assets/AgriNova_AGNV_logo_512x512.png" alt="AgriNova">
+    <span>AgriNova</span>
+  </div>
+
+  <p>© <span data-year></span> AgriNova. L'agriculture nourrit l'humanité.</p>
+</footer>
+
+
+<!-- AUTH MODAL -->
+
+<div id="authModal" class="modal hidden">
+
+  <div class="auth-card">
+
+    <button class="close" onclick="closeAuth()">×</button>
+
+    <div class="auth-logo">
+      <img src="assets/AgriNova_AGNV_logo_512x512.png" alt="AGNV">
+    </div>
+
+    <div id="loginForm">
+
+      <span class="eyebrow">BIENVENUE</span>
+      <h2>Se connecter</h2>
+
+      <p class="auth-description">
+        Retrouvez votre espace AgriNova.
+      </p>
+
+      <form onsubmit="login(event)">
+
+        <input
+          type="email"
+          placeholder="Adresse e-mail"
+          required
+        >
+
+        <input
+          type="password"
+          placeholder="Mot de passe"
+          required
+        >
+
+        <button class="primary-btn full" type="submit">
+          Se connecter
+        </button>
+
+      </form>
+
+      <p class="switch-auth">
+        Pas encore de compte ?
+        <button onclick="showRegister()">Créer un compte</button>
+      </p>
+
+    </div>
+
+
+    <div id="registerForm" class="hidden">
+
+      <span class="eyebrow">REJOINDRE AGRINOVA</span>
+      <h2>Créer un compte</h2>
+
+      <p class="auth-description">
+        Commencez votre profil. Vous pourrez le compléter plus tard.
+      </p>
+
+      <form onsubmit="register(event)">
+
+        <input
+          type="text"
+          placeholder="Nom complet ou nom d'entreprise"
+          required
+        >
+
+        <input
+          type="email"
+          placeholder="Adresse e-mail"
+          required
+        >
+
+        <select required>
+          <option value="">Choisir votre pays</option>
+          <option>🇧🇯 Bénin</option>
+          <option>🇳🇬 Nigeria</option>
+          <option>🇬🇭 Ghana</option>
+          <option>🇨🇮 Côte d'Ivoire</option>
+          <option>🇫🇷 France</option>
+          <option>🌍 Autre pays</option>
+        </select>
+
+        <select required>
+          <option value="">Votre profil</option>
+          <option>Acheteur</option>
+          <option>Agriculteur</option>
+          <option>Vendeur</option>
+          <option>Entreprise</option>
+          <option>Fournisseur</option>
+          <option>Transporteur</option>
+        </select>
+
+        <input
+          type="password"
+          placeholder="Créer un mot de passe"
+          minlength="8"
+          required
+        >
+
+        <button class="primary-btn full" type="submit">
+          Créer mon compte
+        </button>
+
+      </form>
+
+      <p class="switch-auth">
+        Vous avez déjà un compte ?
+        <button onclick="showLogin()">Se connecter</button>
+      </p>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script src="js/i18n.js"></script>
+<script src="js/market-config.js"></script>
+<script src="js/app.js"></script>
+
+<script>
+
+function openAuth(mode) {
+  document.getElementById("authModal").classList.remove("hidden");
+
+  if (mode === "register") {
+    showRegister();
+  } else {
+    showLogin();
+  }
+}
+
+function closeAuth() {
+  document.getElementById("authModal").classList.add("hidden");
+}
+
+function showRegister() {
+  document.getElementById("loginForm").classList.add("hidden");
+  document.getElementById("registerForm").classList.remove("hidden");
+}
+
+function showLogin() {
+  document.getElementById("registerForm").classList.add("hidden");
+  document.getElementById("loginForm").classList.remove("hidden");
+}
+
+function register(event) {
+  event.preventDefault();
+
+  alert(
+    "🌱 Profil créé pour la démonstration.\\n\\n" +
+    "La vraie authentification sécurisée sera connectée " +
+    "au backend avant la mise en production."
+  );
+
+  closeAuth();
+}
+
+function login(event) {
+  event.preventDefault();
+
+  alert(
+    "🔐 Connexion de démonstration.\\n\\n" +
+    "Le système d'authentification réel sera connecté " +
+    "au backend avant le lancement."
+  );
+
+  closeAuth();
+}
+
+</script>
+
+</body>
+</html>
+
+<script src="auth/auth-config.js"></script>
+<script src="profile/profile-model.js"></script>
+<script src="security/security.js"></script>
+<script src="data/security-events.js"></script>
+<script src="auth/auth-ui.js"></script>
+
+<script src="auth/auth-config.js"></script>
+<script src="profile/profile-model.js"></script>
+<script src="security/security.js"></script>
+<script src="data/security-events.js"></script>
+<script src="auth/auth-ui.js"></script>

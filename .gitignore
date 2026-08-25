@@ -1,0 +1,33 @@
+# ================================
+# AGRINOVA — FICHIERS À NE PAS PUBLIER
+# ================================
+
+# Secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Bases de données locales
+*.db
+*.sqlite
+*.sqlite3
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Termux / système
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Backups locaux
+*_backup/
+backup/

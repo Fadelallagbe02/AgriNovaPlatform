@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgriNova — Marketplace</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+<header class="topbar">
+  <a href="../index.html" class="brand">
+    <img src="../assets/AgriNova_AGNV_logo_512x512.png" alt="AgriNova">
+    <span>AgriNova</span>
+  </a>
+
+  <nav>
+    <a href="../index.html">Accueil</a>
+    <a href="market.html" class="active">Marketplace</a>
+    <a href="knowledge.html">Knowledge</a>
+    <a href="agnv.html">AGNV</a>
+  </nav>
+
+  <div class="language">
+    <span data-current-language>Français</span>
+  </div>
+</header>
+
+<main class="container">
+
+  <section class="hero-market">
+    <div>
+      <span class="eyebrow">🌍 AGRINOVA MARKETPLACE</span>
+      <h1>Le marché agricole, connecté au monde.</h1>
+      <p>
+        Découvrez les produits disponibles dans différents marchés,
+        comparez les offres et négociez directement avec les vendeurs.
+      </p>
+    </div>
+
+    <div class="market-selector">
+      <label for="country">Marché</label>
+      <select id="country">
+        <option>🇧🇯 Bénin</option>
+        <option>🇳🇬 Nigeria</option>
+        <option>🇬🇭 Ghana</option>
+        <option>🇨🇮 Côte d’Ivoire</option>
+        <option>🇫🇷 France</option>
+        <option>🌍 International</option>
+      </select>
+    </div>
+  </section>
+
+  <section class="market-tools">
+    <input
+      id="search"
+      type="search"
+      placeholder="Rechercher un produit, une catégorie..."
+    >
+
+    <select id="category">
+      <option value="">Toutes les catégories</option>
+      <option>Céréales</option>
+      <option>Cultures</option>
+      <option>Élevage</option>
+      <option>Machines agricoles</option>
+      <option>Intrants</option>
+      <option>Semences</option>
+    </select>
+  </section>
+
+  <section>
+    <div class="section-heading">
+      <div>
+        <span class="eyebrow">PRODUITS</span>
+        <h2>Offres du marché</h2>
+      </div>
+
+      <button id="publishBtn" class="primary-btn">
+        + Publier un produit
+      </button>
+    </div>
+
+    <div id="productGrid" class="product-grid"></div>
+  </section>
+
+</main>
+
+<div id="publishModal" class="modal hidden">
+  <div class="modal-card">
+
+    <button id="closeModal" class="close">×</button>
+
+    <span class="eyebrow">VENDEUR</span>
+    <h2>Publier un produit</h2>
+
+    <form id="productForm">
+
+      <input name="name" placeholder="Nom du produit" required>
+
+      <select name="category" required>
+        <option value="">Catégorie</option>
+        <option>Céréales</option>
+        <option>Cultures</option>
+        <option>Élevage</option>
+        <option>Machines agricoles</option>
+        <option>Intrants</option>
+        <option>Semences</option>
+      </select>
+
+      <input
+        name="price"
+        type="number"
+        min="0"
+        placeholder="Prix demandé"
+        required
+      >
+
+      <input
+        name="currency"
+        value="XOF"
+        placeholder="Devise"
+        required
+      >
+
+      <input
+        name="unit"
+        placeholder="Unité : kg, tonne, unité..."
+        required
+      >
+
+      <input
+        name="quantity"
+        type="number"
+        min="0"
+        placeholder="Quantité disponible"
+        required
+      >
+
+      <select name="quality">
+        <option>À confirmer</option>
+        <option>Grade A</option>
+        <option>Grade B</option>
+        <option>Certifié</option>
+      </select>
+
+      <label class="check">
+        <input name="negotiable" type="checkbox" checked>
+        Prix négociable
+      </label>
+
+      <textarea
+        name="description"
+        placeholder="Description du produit..."
+      ></textarea>
+
+      <button class="primary-btn" type="submit">
+        Publier l'offre
+      </button>
+
+    </form>
+  </div>
+</div>
+
+<script src="../js/i18n.js"></script>
+<script src="../js/market-config.js"></script>
+<script src="../js/products.js"></script>
+<script src="../js/negotiation.js"></script>
+<script src="../js/trust.js"></script>
+<script src="../js/market.js"></script>
+
+<script>
+const grid = document.getElementById("productGrid");
+const search = document.getElementById("search");
+const category = document.getElementById("category");
+
+function renderProducts() {
+
+  const query = search.value.toLowerCase().trim();
+  const cat = category.value;
+
+  const products = agrinovaGetProducts().filter(product => {
+
+    const matchesSearch =
+      !query ||
+      product.name.toLowerCase().includes(query) ||
+      product.category.toLowerCase().includes(query);
+
+    const matchesCategory =
+      !cat || product.category === cat;
+
+    return matchesSearch && matchesCategory;
+  });
+
+  grid.innerHTML = products.map(product => {
+
+    const available =
+      product.status === "available" &&
+      product.quantity > 0;
+
+    return `
+      <article class="product-card">
+
+        <div class="product-media">
+          <span>${product.category}</span>
+        </div>
+
+        <div class="product-body">
+
+          <div class="product-status">
+            ${agrinovaStatusLabel(
+              available ? "available" : "unavailable"
+            )}
+          </div>
+
+          <h3>${product.name}</h3>
+
+          <p class="location">
+            ${product.country}
+          </p>
+
+          <p>
+            ${product.description}
+          </p>
+
+          <div class="product-data">
+            <span>
+              Stock : ${product.quantity || 0} ${product.unit}
+            </span>
+
+            <strong>
+              ${agrinovaFormatPrice(
+                product.price,
+                product.currency
+              )}/${product.unit}
+            </strong>
+          </div>
+
+          <div class="seller">
+            👤 ${product.seller}
+            ${product.verifiedStock ? " · ✓ Stock vérifié" : ""}
+          </div>
+
+          <div class="product-actions">
+
+            ${
+              available
+                ? `
+                  <button
+                    class="primary-btn"
+                    onclick="startNegotiation('${product.id}')"
+                  >
+                    Acheter / Négocier
+                  </button>
+                `
+                : `
+                  <button class="secondary-btn" disabled>
+                    Indisponible
+                  </button>
+                `
+            }
+
+          </div>
+
+        </div>
+      </article>
+    `;
+
+  }).join("");
+
+  if (!products.length) {
+    grid.innerHTML = `
+      <div class="empty-state">
+        Aucun produit correspondant à votre recherche.
+      </div>
+    `;
+  }
+}
+
+function startNegotiation(productId) {
+
+  const product = agrinovaGetProducts()
+    .find(p => p.id === productId);
+
+  if (!product) return;
+
+  alert(
+    "🤝 Négociation AgriNova\\n\\n" +
+    "Produit : " + product.name + "\\n" +
+    "Prix demandé : " +
+    agrinovaFormatPrice(
+      product.price,
+      product.currency
+    ) + "/" + product.unit +
+    "\\n\\nLe paiement réel n'est pas encore activé."
+  );
+}
+
+search.addEventListener("input", renderProducts);
+category.addEventListener("change", renderProducts);
+
+const modal = document.getElementById("publishModal");
+
+document.getElementById("publishBtn")
+  .addEventListener("click", () =>
+    modal.classList.remove("hidden")
+  );
+
+document.getElementById("closeModal")
+  .addEventListener("click", () =>
+    modal.classList.add("hidden")
+  );
+
+document.getElementById("productForm")
+  .addEventListener("submit", event => {
+
+    event.preventDefault();
+
+    const form = new FormData(event.target);
+
+    const product = {
+      name: form.get("name"),
+      category: form.get("category"),
+      price: Number(form.get("price")),
+      currency: form.get("currency"),
+      unit: form.get("unit"),
+      quantity: Number(form.get("quantity")),
+      quality: form.get("quality"),
+      negotiable: form.has("negotiable"),
+      description: form.get("description"),
+      country: "🌍 Marché sélectionné",
+      seller: "Mon profil",
+      sellerId: "local-user",
+      status: Number(form.get("quantity")) > 0
+        ? "available"
+        : "unavailable",
+      verifiedStock: false
+    };
+
+    agrinovaSaveProduct(product);
+
+    event.target.reset();
+    modal.classList.add("hidden");
+
+    renderProducts();
+  });
+
+renderProducts();
+</script>
+
+<script src="../js/app.js"></script>
+
+</body>
+</html>

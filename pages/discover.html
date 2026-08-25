@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Découverte — AgriNova</title>
+
+    <link rel="stylesheet" href="../css/discover.css">
+</head>
+
+<body>
+
+<header class="topbar">
+
+    <div class="brand">
+        <img
+            src="../assets/AgriNova_AGNV_logo_512x512.png"
+            alt="AgriNova"
+        >
+
+        <div>
+            <strong>AgriNova</strong>
+            <span>🌱 Agriculture mondiale</span>
+        </div>
+    </div>
+
+    <button class="menu-btn" onclick="toggleMenu()">
+        ☰
+    </button>
+
+    <nav id="mainNav">
+        <a href="../index.html">Accueil</a>
+        <a class="active" href="discover.html">Découverte</a>
+        <a href="market.html">Marketplace</a>
+        <a href="knowledge.html">Connaissances</a>
+        <a href="agnv.html">AGNV</a>
+    </nav>
+
+</header>
+
+
+<main>
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <span class="badge">🌍 AGRINOVA WORLD</span>
+
+        <h1>
+            Découvrez le monde
+            <span>agricole.</span>
+        </h1>
+
+        <p>
+            Agriculteurs, producteurs, acheteurs,
+            entreprises et partenaires agricoles du monde entier
+            réunis dans un même espace.
+        </p>
+
+        <div class="search-box">
+
+            <span>🔎</span>
+
+            <input
+                id="searchInput"
+                type="search"
+                placeholder="Rechercher un agriculteur, produit, pays..."
+                oninput="filterProfiles()"
+            >
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="filters">
+
+    <button class="filter active" onclick="filterCategory('all', this)">
+        🌍 Tous
+    </button>
+
+    <button class="filter" onclick="filterCategory('farmer', this)">
+        🧑‍🌾 Agriculteurs
+    </button>
+
+    <button class="filter" onclick="filterCategory('seller', this)">
+        🛒 Vendeurs
+    </button>
+
+    <button class="filter" onclick="filterCategory('buyer', this)">
+        💼 Acheteurs
+    </button>
+
+    <button class="filter" onclick="filterCategory('online', this)">
+        🟢 En ligne
+    </button>
+
+</section>
+
+
+<section class="section">
+
+    <div class="section-title">
+
+        <div>
+            <span class="eyebrow">COMMUNAUTÉ</span>
+            <h2>Profils à découvrir</h2>
+        </div>
+
+        <span id="resultCount">
+            6 profils
+        </span>
+
+    </div>
+
+
+    <div id="profilesGrid" class="profiles-grid">
+
+
+        <article
+            class="profile-card"
+            data-category="farmer online"
+            data-search="amadou bénin coton maïs agriculteur"
+        >
+
+            <div class="cover cover-1"></div>
+
+            <div class="profile-body">
+
+                <div class="avatar">
+                    👨🏿‍🌾
+                    <span class="online"></span>
+                </div>
+
+                <div class="country">
+                    🇧🇯 Bénin
+                </div>
+
+                <h3>Amadou Agri</h3>
+
+                <p class="role">
+                    🧑‍🌾 Producteur agricole
+                </p>
+
+                <p class="description">
+                    Maïs, coton et produits maraîchers.
+                    Disponible pour échanges et partenariats.
+                </p>
+
+                <div class="tags">
+                    <span>🌽 Maïs</span>
+                    <span>🌱 Coton</span>
+                    <span>🥬 Maraîchage</span>
+                </div>
+
+                <div class="card-footer">
+                    <span class="status">● En ligne</span>
+
+                    <button onclick="contactUser('Amadou Agri')">
+                        💬 Contacter
+                    </button>
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <article
+            class="profile-card"
+            data-category="seller"
+            data-search="maria brésil café cacao vendeur"
+        >
+
+            <div class="cover cover-2"></div>
+
+            <div class="profile-body">
+
+                <div class="avatar">
+                    👩🏽‍🌾
+                    <span class="online"></span>
+                </div>
+
+                <div class="country">
+                    🇧🇷 Brésil
+                </div>
+
+                <h3>Maria Agro</h3>
+
+                <p class="role">
+                    🛒 Productrice & vendeuse
+                </p>
+
+                <p class="description">
+                    Café, cacao et produits agricoles
+                    destinés au marché international.
+                </p>
+
+                <div class="tags">
+                    <span>☕ Café</span>
+                    <span>🍫 Cacao</span>
+                    <span>🌱 Bio</span>
+                </div>
+
+                <div class="card-footer">
+                    <span class="status">● En ligne</span>
+
+                    <button onclick="contactUser('Maria Agro')">
+                        💬 Contacter
+                    </button>
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <article
+            class="profile-card"
+            data-category="buyer"
+            data-search="john usa acheteur grains agriculture"
+        >
+
+            <div class="cover cover-3"></div>
+
+            <div class="profile-body">
+
+                <div class="avatar">
+                    👨🏻‍💼
+                </div>
+
+                <div class="country">
+                    🇺🇸 États-Unis
+                </div>
+
+                <h3>John Agriculture</h3>
+
+                <p class="role">
+                    💼 Acheteur professionnel
+                </p>
+
+                <p class="description">
+                    Recherche des producteurs agricoles
+                    pour des relations commerciales durables.
+                </p>
+
+                <div class="tags">
+                    <span>🌾 Céréales</span>
+                    <span>📦 Import</span>
+                    <span>🤝 B2B</span>
+                </div>
+
+                <div class="card-footer">
+                    <span class="offline">● Hors ligne</span>
+
+                    <button onclick="contactUser('John Agriculture')">
+                        💬 Contacter
+                    </button>
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <article
+            class="profile-card"
+            data-category="farmer"
+            data-search="fatou sénégal arachide riz agriculture"
+        >
+
+            <div class="cover cover-4"></div>
+
+            <div class="profile-body">
+
+                <div class="avatar">
+                    👩🏾‍🌾
+                    <span class="online"></span>
+                </div>
+
+                <div class="country">
+                    🇸🇳 Sénégal
+                </div>
+
+                <h3>Fatou Farm</h3>
+
+                <p class="role">
+                    🧑‍🌾 Agricultrice
+                </p>
+
+                <p class="description">
+                    Production d'arachide, riz et cultures
+                    adaptées aux conditions locales.
+                </p>
+
+                <div class="tags">
+                    <span>🥜 Arachide</span>
+                    <span>🍚 Riz</span>
+                    <span>🌾 Céréales</span>
+                </div>
+
+                <div class="card-footer">
+                    <span class="status">● En ligne</span>
+
+                    <button onclick="contactUser('Fatou Farm')">
+                        💬 Contacter
+                    </button>
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <article
+            class="profile-card"
+            data-category="seller"
+            data-search="li china machine agricole vendeur"
+        >
+
+            <div class="cover cover-5"></div>
+
+            <div class="profile-body">
+
+                <div class="avatar">
+                    👨🏻‍🔧
+                    <span class="online"></span>
+                </div>
+
+                <div class="country">
+                    🇨🇳 Chine
+                </div>
+
+                <h3>AgroTech China</h3>
+
+                <p class="role">
+                    ⚙️ Machines agricoles
+                </p>
+
+                <p class="description">
+                    Équipements agricoles et solutions
+                    technologiques pour producteurs.
+                </p>
+
+                <div class="tags">
+                    <span>🚜 Machines</span>
+                    <span>⚙️ Équipement</span>
+                    <span>🌍 Export</span>
+                </div>
+
+                <div class="card-footer">
+                    <span class="status">● En ligne</span>
+
+                    <button onclick="contactUser('AgroTech China')">
+                        💬 Contacter
+                    </button>
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <article
+            class="profile-card"
+            data-category="buyer"
+            data-search="aisha inde acheteur agriculture riz épices"
+        >
+
+            <div class="cover cover-6"></div>
+
+            <div class="profile-body">
+
+                <div class="avatar">
+                    👩🏽‍💼
+                    <span class="online"></span>
+                </div>
+
+                <div class="country">
+                    🇮🇳 Inde
+                </div>
+
+                <h3>Aisha Agro</h3>
+
+                <p class="role">
+                    💼 Acheteuse
+                </p>
+
+                <p class="description">
+                    Recherche des producteurs et fournisseurs
+                    agricoles fiables.
+                </p>
+
+                <div class="tags">
+                    <span>🌾 Riz</span>
+                    <span>🌶️ Épices</span>
+                    <span>🤝 B2B</span>
+                </div>
+
+                <div class="card-footer">
+                    <span class="status">● En ligne</span>
+
+                    <button onclick="contactUser('Aisha Agro')">
+                        💬 Contacter
+                    </button>
+                </div>
+
+            </div>
+
+        </article>
+
+    </div>
+
+</section>
+
+
+<section class="join">
+
+    <div>
+
+        <span class="eyebrow">
+            AGRINOVA COMMUNITY
+        </span>
+
+        <h2>
+            Votre profil agricole
+            commence ici.
+        </h2>
+
+        <p>
+            Présentez votre activité, vos produits,
+            votre pays et vos disponibilités.
+        </p>
+
+    </div>
+
+    <a href="../index.html#register">
+        Créer mon profil →
+    </a>
+
+</section>
+
+</main>
+
+
+<footer>
+
+    <div>
+        <strong>🌱 AgriNova</strong>
+        <p>
+            Connecter l'agriculture mondiale.
+        </p>
+    </div>
+
+    <div>
+        <span>© 2026 AgriNova</span>
+        <span>AGNV Ecosystem</span>
+    </div>
+
+</footer>
+
+
+<script src="../js/discover.js"></script>
+
+</body>
+</html>
