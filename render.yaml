@@ -21,3 +21,14 @@ services:
     buildCommand: pip install -r requirements.txt
     startCommand: python backend/social_server.py
     healthCheckPath: /api/health
+
+  - type: web
+    name: agrinova-payment
+    runtime: python
+    plan: free
+    branch: main
+    repo: https://github.com/Fadelallagbe02/AgriNovaPlatform
+    rootDir: .
+    buildCommand: pip install -r requirements.txt
+    startCommand: python backend/payment_server.py
+    healthCheckPath: /api/health
