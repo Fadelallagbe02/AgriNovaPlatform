@@ -1,72 +1,136 @@
 const SocialModel = {
-    users: [],
-    conversations: [],
-    messages: [],
-    presence: {},
 
-    createUser(user) {
-        const profile = {
-            id: user.id,
-            name: user.name,
-            country: user.country || "",
-            language: user.language || "fr",
-            role: user.role || "user",
-            avatar: user.avatar || "",
-            bio: user.bio || "",
-            createdAt: new Date().toISOString()
-        };
+    API: window.AGRINOVA_API.social,
 
-        this.users.push(profile);
-        return profile;
+    async request(path, options = {}) {
+
+        const response = await fetch(
+            this.API + path,
+            {
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                    ...(options.headers || {})
+                },
+                ...options
+            }
+        );
+
+        let data = {};
+
+        try {
+            data = await response.json();
+        } catch (_) {}
+
+        if (!response.ok) {
+            throw new Error(
+                data.error || "Erreur Social API"
+            );
+        }
+
+        return data;
     },
 
-    setPresence(userId, status) {
-        this.presence[userId] = {
-            status,
-            lastSeen: new Date().toISOString()
-        };
+
+    async getUsers() {
+
+        const data = await this.request(
+            "/api/users"
+        );
+
+        return data.users || [];
     },
 
-    getPresence(userId) {
-        return this.presence[userId] || {
-            status: "offline",
-            lastSeen: null
-        };
+
+    async createUser(user) {
+
+        const data = await this.request(
+            "/api/users",
+            {
+                method: "POST",
+                body: JSON.stringify({
+                    name: user.name,
+                    country: user.country || "",
+                    language: user.language || "fr",
+                    role: user.role || "user",
+                    avatar: user.avatar || "",
+                    bio: user.bio || ""
+                })
+            }
+        );
+
+        return data.user;
     },
 
-    createConversation(userA, userB) {
-        const conversation = {
-            id: crypto.randomUUID(),
-            participants: [userA, userB],
-            createdAt: new Date().toISOString()
-        };
 
-        this.conversations.push(conversation);
-        return conversation;
+    async setPresence(userId, status) {
+
+        return this.request(
+            "/api/presence",
+            {
+                method: "POST",
+                body: JSON.stringify({
+                    user_id: userId,
+                    status
+                })
+            }
+        );
     },
 
-    sendMessage(conversationId, senderId, text) {
+
+    async createConversation(userA, userB) {
+
+        const data = await this.request(
+            "/api/conversations",
+            {
+                method: "POST",
+                body: JSON.stringify({
+                    user_a: userA,
+                    user_b: userB
+                })
+            }
+        );
+
+        return data.conversation;
+    },
+
+
+    async getMessages(conversationId) {
+
+        const data = await this.request(
+            "/api/conversations/" +
+            encodeURIComponent(conversationId)
+        );
+
+        return data.messages || [];
+    },
+
+
+    async sendMessage(
+        conversationId,
+        senderId,
+        text
+    ) {
+
         if (!text || !text.trim()) {
             throw new Error("Message vide");
         }
 
-        const message = {
-            id: crypto.randomUUID(),
-            conversationId,
-            senderId,
-            text: text.trim(),
-            createdAt: new Date().toISOString()
-        };
-
-        this.messages.push(message);
-        return message;
-    },
-
-    getMessages(conversationId) {
-        return this.messages.filter(
-            message => message.conversationId === conversationId
+        const data = await this.request(
+            "/api/messages",
+            {
+                method: "POST",
+                body: JSON.stringify({
+                    conversation_id: conversationId,
+                    sender_id: senderId,
+                    body: text.trim()
+                })
+            }
         );
+
+        return data.message;
     }
+
 };
 
 window.SocialModel = SocialModel;

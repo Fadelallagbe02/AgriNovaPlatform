@@ -355,7 +355,7 @@ class Handler(BaseHTTPRequestHandler):
 
         self.send_header(
             "Access-Control-Allow-Origin",
-            "http://127.0.0.1:8080"
+            "*"
         )
 
         self.send_header(
