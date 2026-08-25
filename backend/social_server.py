@@ -8,7 +8,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import urlparse
 
 HOST = "0.0.0.0"
-PORT = 8091
+PORT = int(os.environ.get("PORT", "8091"))
 DB = "data/agrinova_social.db"
 
 

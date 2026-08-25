@@ -747,15 +747,18 @@ class Handler(BaseHTTPRequestHandler):
 
 init_db()
 
+
+PORT = int(os.environ.get("PORT", "8092"))
+
 server = ThreadingHTTPServer(
-    ("127.0.0.1", 8092),
+    ("0.0.0.0", PORT),
     Handler
 )
 
 print("========================================")
 print("🔐 AGRINOVA AUTH BACKEND V5.1")
 print("========================================")
-print("Serveur : http://127.0.0.1:8092")
+print(f"Serveur : http://0.0.0.0:{PORT}")
 print("SQLite  : agrinova.db")
 print("Hash    : PBKDF2-SHA256")
 print("Sessions: serveur")
