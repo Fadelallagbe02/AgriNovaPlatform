@@ -5,6 +5,7 @@ services:
     runtime: python
     plan: free
     branch: main
+    repo: https://github.com/Fadelallagbe02/AgriNovaPlatform
     rootDir: .
     buildCommand: pip install -r requirements.txt
     startCommand: python backend/auth_server.py
@@ -15,6 +16,7 @@ services:
     runtime: python
     plan: free
     branch: main
+    repo: https://github.com/Fadelallagbe02/AgriNovaPlatform
     rootDir: .
     buildCommand: pip install -r requirements.txt
     startCommand: python backend/social_server.py
