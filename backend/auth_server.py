@@ -748,14 +748,14 @@ class Handler(BaseHTTPRequestHandler):
 init_db()
 
 server = ThreadingHTTPServer(
-    ("127.0.0.1", 8091),
+    ("127.0.0.1", 8092),
     Handler
 )
 
 print("========================================")
 print("🔐 AGRINOVA AUTH BACKEND V5.1")
 print("========================================")
-print("Serveur : http://127.0.0.1:8091")
+print("Serveur : http://127.0.0.1:8092")
 print("SQLite  : agrinova.db")
 print("Hash    : PBKDF2-SHA256")
 print("Sessions: serveur")
