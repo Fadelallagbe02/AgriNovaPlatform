@@ -352,40 +352,143 @@ function showLogin() {
   document.getElementById("loginForm").classList.remove("hidden");
 }
 
-function register(event) {
-  event.preventDefault();
+async function authRequest(path, payload) {
 
-  alert(
-    "🌱 Profil créé pour la démonstration.\\n\\n" +
-    "La vraie authentification sécurisée sera connectée " +
-    "au backend avant la mise en production."
+  const response = await fetch(
+    `${window.AGRINOVA_API.auth}${path}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      credentials: "include",
+      body: JSON.stringify(payload)
+    }
   );
 
-  closeAuth();
+  let data = {};
+
+  try {
+    data = await response.json();
+  } catch (_) {}
+
+  if (!response.ok) {
+    throw new Error(
+      data.error || "Une erreur est survenue."
+    );
+  }
+
+  return data;
 }
 
-function login(event) {
+async function register(event) {
+
   event.preventDefault();
 
-  alert(
-    "🔐 Connexion de démonstration.\\n\\n" +
-    "Le système d'authentification réel sera connecté " +
-    "au backend avant le lancement."
-  );
+  const form = event.target;
+  const inputs = form.querySelectorAll("input");
+  const selects = form.querySelectorAll("select");
 
-  closeAuth();
+  const name = inputs[0].value.trim();
+  const email = inputs[1].value.trim();
+  const password = inputs[2].value;
+
+  const country = selects[0].value;
+  const role = selects[1].value;
+
+  const button = form.querySelector("button[type='submit']");
+
+  button.disabled = true;
+  button.textContent = "Création du compte...";
+
+  try {
+
+    const result = await authRequest(
+      "/api/auth/register",
+      {
+        name,
+        email,
+        password,
+        country,
+        role,
+        language: "fr"
+      }
+    );
+
+    alert(
+      "🌱 Compte AgriNova créé avec succès !\n\n" +
+      "Ton compte réel a été enregistré."
+    );
+
+    form.reset();
+    showLogin();
+
+  } catch (error) {
+
+    alert(
+      "❌ Création du compte impossible.\n\n" +
+      error.message
+    );
+
+  } finally {
+
+    button.disabled = false;
+    button.textContent = "Créer mon compte";
+
+  }
+}
+
+async function login(event) {
+
+  event.preventDefault();
+
+  const form = event.target;
+  const inputs = form.querySelectorAll("input");
+
+  const email = inputs[0].value.trim();
+  const password = inputs[1].value;
+
+  const button = form.querySelector("button[type='submit']");
+
+  button.disabled = true;
+  button.textContent = "Connexion...";
+
+  try {
+
+    const result = await authRequest(
+      "/api/auth/login",
+      {
+        email,
+        password
+      }
+    );
+
+    alert(
+      "🔐 Connexion réussie !\n\n" +
+      "Bienvenue sur AgriNova."
+    );
+
+    window.location.reload();
+
+  } catch (error) {
+
+    alert(
+      "❌ Connexion impossible.\n\n" +
+      error.message
+    );
+
+  } finally {
+
+    button.disabled = false;
+    button.textContent = "Se connecter";
+
+  }
 }
 
 </script>
 
 </body>
 </html>
-
-<script src="auth/auth-config.js"></script>
-<script src="profile/profile-model.js"></script>
-<script src="security/security.js"></script>
-<script src="data/security-events.js"></script>
-<script src="auth/auth-ui.js"></script>
 
 <script src="auth/auth-config.js"></script>
 <script src="profile/profile-model.js"></script>
