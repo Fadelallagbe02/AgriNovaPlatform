@@ -224,7 +224,7 @@
         Retrouvez votre espace AgriNova.
       </p>
 
-      <form onsubmit="login(event)">
+      <form id="loginFormElement">
 
         <input
           type="email"
@@ -261,7 +261,7 @@
         Commencez votre profil. Vous pourrez le compléter plus tard.
       </p>
 
-      <form onsubmit="register(event)">
+      <form id="registerFormElement">
 
         <input
           type="text"
@@ -326,172 +326,91 @@
 <script src="js/market-config.js"></script>
 <script src="js/app.js"></script>
 
+
+
+
 <script>
+document.addEventListener("DOMContentLoaded", () => {
 
-function openAuth(mode) {
-  document.getElementById("authModal").classList.remove("hidden");
+  const registerForm = document.getElementById("registerFormElement");
+  const loginForm = document.getElementById("loginFormElement");
 
-  if (mode === "register") {
-    showRegister();
-  } else {
-    showLogin();
-  }
-}
+  if (registerForm) {
+    registerForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
 
-function closeAuth() {
-  document.getElementById("authModal").classList.add("hidden");
-}
+      const inputs = registerForm.querySelectorAll("input, select");
 
-function showRegister() {
-  document.getElementById("loginForm").classList.add("hidden");
-  document.getElementById("registerForm").classList.remove("hidden");
-}
+      const name = inputs[0].value.trim();
+      const email = inputs[1].value.trim();
+      const country = inputs[2].value;
+      const role = inputs[3].value;
+      const password = inputs[4].value;
 
-function showLogin() {
-  document.getElementById("registerForm").classList.add("hidden");
-  document.getElementById("loginForm").classList.remove("hidden");
-}
+      try {
+        const result = await window.agriNovaAuthUI.register({
+          name,
+          email,
+          country,
+          language: document.documentElement.lang || "fr",
+          role,
+          password
+        });
 
-async function authRequest(path, payload) {
+        if (!result || result.success === false) {
+          throw new Error(result?.error || "Inscription impossible");
+        }
 
-  const response = await fetch(
-    `${window.AGRINOVA_API.auth}${path}`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      credentials: "include",
-      body: JSON.stringify(payload)
-    }
-  );
+        alert("🌱 Compte AgriNova créé avec succès.");
 
-  let data = {};
+        registerForm.reset();
+        closeAuth();
 
-  try {
-    data = await response.json();
-  } catch (_) {}
-
-  if (!response.ok) {
-    throw new Error(
-      data.error || "Une erreur est survenue."
-    );
-  }
-
-  return data;
-}
-
-async function register(event) {
-
-  event.preventDefault();
-
-  const form = event.target;
-  const inputs = form.querySelectorAll("input");
-  const selects = form.querySelectorAll("select");
-
-  const name = inputs[0].value.trim();
-  const email = inputs[1].value.trim();
-  const password = inputs[2].value;
-
-  const country = selects[0].value;
-  const role = selects[1].value;
-
-  const button = form.querySelector("button[type='submit']");
-
-  button.disabled = true;
-  button.textContent = "Création du compte...";
-
-  try {
-
-    const result = await authRequest(
-      "/api/auth/register",
-      {
-        name,
-        email,
-        password,
-        country,
-        role,
-        language: "fr"
+      } catch (error) {
+        console.error("AgriNova Register:", error);
+        alert("❌ " + error.message);
       }
-    );
-
-    alert(
-      "🌱 Compte AgriNova créé avec succès !\n\n" +
-      "Ton compte réel a été enregistré."
-    );
-
-    form.reset();
-    showLogin();
-
-  } catch (error) {
-
-    alert(
-      "❌ Création du compte impossible.\n\n" +
-      error.message
-    );
-
-  } finally {
-
-    button.disabled = false;
-    button.textContent = "Créer mon compte";
-
+    });
   }
-}
 
-async function login(event) {
+  if (loginForm) {
+    loginForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
 
-  event.preventDefault();
+      const inputs = loginForm.querySelectorAll("input");
 
-  const form = event.target;
-  const inputs = form.querySelectorAll("input");
+      const email = inputs[0].value.trim();
+      const password = inputs[1].value;
 
-  const email = inputs[0].value.trim();
-  const password = inputs[1].value;
+      try {
+        const result = await window.agriNovaAuthUI.login(
+          email,
+          password
+        );
 
-  const button = form.querySelector("button[type='submit']");
+        if (!result || result.success === false) {
+          throw new Error(result?.error || "Connexion impossible");
+        }
 
-  button.disabled = true;
-  button.textContent = "Connexion...";
+        alert("🔐 Connexion réussie.");
 
-  try {
+        loginForm.reset();
+        closeAuth();
 
-    const result = await authRequest(
-      "/api/auth/login",
-      {
-        email,
-        password
+      } catch (error) {
+        console.error("AgriNova Login:", error);
+        alert("❌ " + error.message);
       }
-    );
-
-    alert(
-      "🔐 Connexion réussie !\n\n" +
-      "Bienvenue sur AgriNova."
-    );
-
-    window.location.reload();
-
-  } catch (error) {
-
-    alert(
-      "❌ Connexion impossible.\n\n" +
-      error.message
-    );
-
-  } finally {
-
-    button.disabled = false;
-    button.textContent = "Se connecter";
-
+    });
   }
-}
 
+});
 </script>
-
-</body>
-</html>
 
 <script src="auth/auth-config.js"></script>
 <script src="profile/profile-model.js"></script>
 <script src="security/security.js"></script>
 <script src="data/security-events.js"></script>
 <script src="auth/auth-ui.js"></script>
+</body>
+</html>
