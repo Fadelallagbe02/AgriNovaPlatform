@@ -17,11 +17,11 @@
   </a>
 
   <div class="nav-actions">
-    <button class="ghost-btn" onclick="openAuth('login')">
+    <button id="openLoginBtn" class="ghost-btn" type="button">
       Connexion
     </button>
 
-    <button class="primary-btn" onclick="openAuth('register')">
+    <button id="openRegisterBtn" class="primary-btn" type="button">
       S'inscrire
     </button>
   </div>
@@ -50,7 +50,7 @@
     </p>
 
     <div class="hero-actions">
-      <button class="primary-btn large" onclick="openAuth('register')">
+      <button id="heroRegisterBtn" class="primary-btn large" type="button">
         Commencer maintenant →
       </button>
 
@@ -209,7 +209,10 @@
 <script>
 function openAuth(mode) {
   const modal = document.getElementById("authModal");
-  if (!modal) return;
+  if (!modal) {
+    console.error("AgriNova: authModal introuvable");
+    return;
+  }
 
   modal.classList.remove("hidden");
 
@@ -222,7 +225,9 @@ function openAuth(mode) {
 
 function closeAuth() {
   const modal = document.getElementById("authModal");
-  if (modal) modal.classList.add("hidden");
+  if (modal) {
+    modal.classList.add("hidden");
+  }
 }
 
 function showRegister() {
@@ -240,6 +245,36 @@ function showLogin() {
   if (register) register.classList.add("hidden");
   if (login) login.classList.remove("hidden");
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  const loginBtn = document.getElementById("openLoginBtn");
+  const registerBtn = document.getElementById("openRegisterBtn");
+  const heroRegisterBtn = document.getElementById("heroRegisterBtn");
+  const switchRegisterBtn = document.getElementById("switchToRegisterBtn");
+  const switchLoginBtn = document.getElementById("switchToLoginBtn");
+
+  if (loginBtn) {
+    loginBtn.addEventListener("click", () => openAuth("login"));
+  }
+
+  if (registerBtn) {
+    registerBtn.addEventListener("click", () => openAuth("register"));
+  }
+
+  if (heroRegisterBtn) {
+    heroRegisterBtn.addEventListener("click", () => openAuth("register"));
+  }
+
+  if (switchRegisterBtn) {
+    switchRegisterBtn.addEventListener("click", showRegister);
+  }
+
+  if (switchLoginBtn) {
+    switchLoginBtn.addEventListener("click", showLogin);
+  }
+
+  console.log("✅ AgriNova Auth UI initialisée");
+});
 </script>
 
 <div id="authModal" class="modal hidden">
@@ -283,7 +318,7 @@ function showLogin() {
 
       <p class="switch-auth">
         Pas encore de compte ?
-        <button onclick="showRegister()">Créer un compte</button>
+        <button id="switchToRegisterBtn" type="button">Créer un compte</button>
       </p>
 
     </div>
@@ -347,7 +382,7 @@ function showLogin() {
 
       <p class="switch-auth">
         Vous avez déjà un compte ?
-        <button onclick="showLogin()">Se connecter</button>
+        <button id="switchToLoginBtn" type="button">Se connecter</button>
       </p>
 
     </div>
