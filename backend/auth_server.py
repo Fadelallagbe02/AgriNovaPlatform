@@ -350,13 +350,26 @@ class Handler(BaseHTTPRequestHandler):
             return None
 
     def do_OPTIONS(self):
-
         self.send_response(204)
 
-        self.send_header(
-            "Access-Control-Allow-Origin",
-            "*"
-        )
+        origin = self.headers.get("Origin", "")
+
+        allowed_origins = {
+            "https://fadelallagbe02.github.io",
+            "http://127.0.0.1:8080",
+            "http://localhost:8080",
+        }
+
+        if origin in allowed_origins:
+            self.send_header(
+                "Access-Control-Allow-Origin",
+                origin
+            )
+
+            self.send_header(
+                "Access-Control-Allow-Credentials",
+                "true"
+            )
 
         self.send_header(
             "Access-Control-Allow-Headers",
@@ -366,11 +379,6 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header(
             "Access-Control-Allow-Methods",
             "GET, POST, OPTIONS"
-        )
-
-        self.send_header(
-            "Access-Control-Allow-Credentials",
-            "true"
         )
 
         self.end_headers()
