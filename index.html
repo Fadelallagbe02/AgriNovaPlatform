@@ -332,8 +332,24 @@
 <script>
 document.addEventListener("DOMContentLoaded", () => {
 
-  const registerForm = document.getElementById("registerFormElement");
   const loginForm = document.getElementById("loginFormElement");
+  const registerForm = document.getElementById("registerFormElement");
+
+  async function loadCurrentUser() {
+    try {
+      const result = await window.agriNovaAuthUI.me();
+
+      if (result && result.success !== false && result.user) {
+        window.AGRINOVA_CURRENT_USER = result.user;
+        console.log("✅ Session AgriNova active", result.user);
+        return result.user;
+      }
+    } catch (error) {
+      console.log("ℹ️ Aucune session active");
+    }
+
+    return null;
+  }
 
   if (registerForm) {
     registerForm.addEventListener("submit", async (event) => {
@@ -358,13 +374,15 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         if (!result || result.success === false) {
-          throw new Error(result?.error || "Inscription impossible");
+          throw new Error(
+            result?.error || "Inscription impossible"
+          );
         }
 
         alert("🌱 Compte AgriNova créé avec succès.");
 
         registerForm.reset();
-        closeAuth();
+        showLogin();
 
       } catch (error) {
         console.error("AgriNova Register:", error);
@@ -389,13 +407,19 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
         if (!result || result.success === false) {
-          throw new Error(result?.error || "Connexion impossible");
+          throw new Error(
+            result?.error || "Connexion impossible"
+          );
         }
+
+        window.AGRINOVA_CURRENT_USER = result.user || null;
 
         alert("🔐 Connexion réussie.");
 
         loginForm.reset();
         closeAuth();
+
+        await loadCurrentUser();
 
       } catch (error) {
         console.error("AgriNova Login:", error);
@@ -404,6 +428,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  loadCurrentUser();
 });
 </script>
 

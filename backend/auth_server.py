@@ -368,6 +368,11 @@ class Handler(BaseHTTPRequestHandler):
             "GET, POST, OPTIONS"
         )
 
+        self.send_header(
+            "Access-Control-Allow-Credentials",
+            "true"
+        )
+
         self.end_headers()
 
     def do_POST(self):
@@ -603,14 +608,14 @@ class Handler(BaseHTTPRequestHandler):
                 "agrinova_session="
                 + session_token
                 + "; HttpOnly; SameSite=Strict; "
-                "Path=/; Max-Age=86400"
+                "Path=/; Max-Age=86400; Secure; SameSite=None"
             ),
 
             (
                 "agrinova_csrf="
                 + csrf_token
                 + "; SameSite=Strict; "
-                "Path=/; Max-Age=86400"
+                "Path=/; Max-Age=86400; Secure; SameSite=None"
             )
         ]
 
