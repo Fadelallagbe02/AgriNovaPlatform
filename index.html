@@ -206,76 +206,7 @@
 <!-- AUTH MODAL -->
 
 
-<script>
-function openAuth(mode) {
-  const modal = document.getElementById("authModal");
-  if (!modal) {
-    console.error("AgriNova: authModal introuvable");
-    return;
-  }
 
-  modal.classList.remove("hidden");
-
-  if (mode === "register") {
-    showRegister();
-  } else {
-    showLogin();
-  }
-}
-
-function closeAuth() {
-  const modal = document.getElementById("authModal");
-  if (modal) {
-    modal.classList.add("hidden");
-  }
-}
-
-function showRegister() {
-  const login = document.getElementById("loginForm");
-  const register = document.getElementById("registerForm");
-
-  if (login) login.classList.add("hidden");
-  if (register) register.classList.remove("hidden");
-}
-
-function showLogin() {
-  const login = document.getElementById("loginForm");
-  const register = document.getElementById("registerForm");
-
-  if (register) register.classList.add("hidden");
-  if (login) login.classList.remove("hidden");
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  const loginBtn = document.getElementById("openLoginBtn");
-  const registerBtn = document.getElementById("openRegisterBtn");
-  const heroRegisterBtn = document.getElementById("heroRegisterBtn");
-  const switchRegisterBtn = document.getElementById("switchToRegisterBtn");
-  const switchLoginBtn = document.getElementById("switchToLoginBtn");
-
-  if (loginBtn) {
-    loginBtn.addEventListener("click", () => openAuth("login"));
-  }
-
-  if (registerBtn) {
-    registerBtn.addEventListener("click", () => openAuth("register"));
-  }
-
-  if (heroRegisterBtn) {
-    heroRegisterBtn.addEventListener("click", () => openAuth("register"));
-  }
-
-  if (switchRegisterBtn) {
-    switchRegisterBtn.addEventListener("click", showRegister);
-  }
-
-  if (switchLoginBtn) {
-    switchLoginBtn.addEventListener("click", showLogin);
-  }
-
-  console.log("✅ AgriNova Auth UI initialisée");
-});
-</script>
 
 <div id="authModal" class="modal hidden">
 
@@ -390,6 +321,77 @@ document.addEventListener("DOMContentLoaded", () => {
   </div>
 
 </div>
+
+<script>
+function openAuth(mode) {
+  const modal = document.getElementById("authModal");
+  if (!modal) {
+    console.error("AgriNova: authModal introuvable");
+    return;
+  }
+
+  modal.classList.remove("hidden");
+
+  if (mode === "register") {
+    showRegister();
+  } else {
+    showLogin();
+  }
+}
+
+function closeAuth() {
+  const modal = document.getElementById("authModal");
+  if (modal) {
+    modal.classList.add("hidden");
+  }
+}
+
+function showRegister() {
+  const login = document.getElementById("loginForm");
+  const register = document.getElementById("registerForm");
+
+  if (login) login.classList.add("hidden");
+  if (register) register.classList.remove("hidden");
+}
+
+function showLogin() {
+  const login = document.getElementById("loginForm");
+  const register = document.getElementById("registerForm");
+
+  if (register) register.classList.add("hidden");
+  if (login) login.classList.remove("hidden");
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const loginBtn = document.getElementById("openLoginBtn");
+  const registerBtn = document.getElementById("openRegisterBtn");
+  const heroRegisterBtn = document.getElementById("heroRegisterBtn");
+  const switchRegisterBtn = document.getElementById("switchToRegisterBtn");
+  const switchLoginBtn = document.getElementById("switchToLoginBtn");
+
+  if (loginBtn) {
+    loginBtn.addEventListener("click", () => openAuth("login"));
+  }
+
+  if (registerBtn) {
+    registerBtn.addEventListener("click", () => openAuth("register"));
+  }
+
+  if (heroRegisterBtn) {
+    heroRegisterBtn.addEventListener("click", () => openAuth("register"));
+  }
+
+  if (switchRegisterBtn) {
+    switchRegisterBtn.addEventListener("click", showRegister);
+  }
+
+  if (switchLoginBtn) {
+    switchLoginBtn.addEventListener("click", showLogin);
+  }
+
+  console.log("✅ AgriNova Auth UI initialisée");
+});
+</script>
 
 
 <script src="js/api-config.js"></script>
